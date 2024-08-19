@@ -2,7 +2,7 @@
 
 require('cross-fetch/polyfill');
 
-function addDestinationInfo(document, name, diameter, star, distance, moons, image) {
+function addDestinationInfo(document, name, diameter, star, distance, moons, imageUrl) {
     // Here is the HTML formatting for our mission target div.
     
 
@@ -15,7 +15,7 @@ function addDestinationInfo(document, name, diameter, star, distance, moons, ima
         <li>Distance from Earth: ${distance}</li>
         <li>Number of Moons: ${moons}</li>
     </ol>
-    <img src="${image}"/>`
+    <img src="${imageUrl}"/>`
 }
 
 // Validating Input // Creating an alert to validate the input
@@ -32,24 +32,37 @@ function validateInput(value) {
 
 // Handling Form Submissions
 function formSubmission(document, list, pilot, copilot, fuelLevel, cargoLevel) {
-   //Getting all the elements neccessary
+   
+     // Checking Validations and Issuing Alerts
+     let pilotNameValidation = validateInput(pilot);
+     let copilotNameValidation = validateInput(copilot);
+     let fuelLevelValid = validateInput(fuelLevel);
+     let cargoMassValid = validateInput(cargoLevel);
+    
+     
+    //Getting all the elements neccessary
     let pilotStatus = document.getElementById("pilotStatus");
     let copilotStatus = document.getElementById("copilotStatus");
     let fuelLevelStatus = document.getElementById("fuelStatus");
     let cargoMassStatus = document.getElementById("cargoStatus");
 
 
-    // Checking Validations and Issuing Alerts
-    let fuelLevelValid = validateInput(fuelLevel);
-    let cargoMassValid = validateInput(cargoLevel);
+   
 
     if (pilot === '' || copilot === '' || fuelLevel === '' || cargoLevel === '') {
         alert('All field are required!'); //Displays alert when no field is entered
     }
+    //Displays alert when Strinng is not eneter in names of  pilot and co-pilotl 
 
-    if (fuelLevelValid === 'Not a Number' || cargoMassValid === 'Not a Number' ||pilot === 'Is a Number' || copilot === 'Is a Number' ) {
-        alert('Invalid input! Please enter valid information.');
-    } //Displays alert when number is not eneter in fuel and cargo level 
+    else if (pilotNameValidation === 'Is a Number' || copilotNameValidation=== 'Is a Number') {
+        alert('Invalid input! Pilot Name and Co-pilot Name  should be strings.');
+    } 
+
+    //Displays alert when number is not eneter in fuel and cargo level 
+    else if (fuelLevelValid === 'Not a Number' || cargoMassValid === 'Not a Number') {
+        alert('Invalid input! Fuel Level and Cargo Mass should be Numbers.');
+    } 
+
 
     // Updating shuttle information
     pilotStatus.innerHTML = `Pilot ${pilot} is ready for launch`;
@@ -71,6 +84,7 @@ function formSubmission(document, list, pilot, copilot, fuelLevel, cargoLevel) {
         fuelLevelStatus.innerHTML = 'Fuel level too low for launch';
         launchStatus.innerHTML = 'Shuttle Not Ready for Launch';
         launchStatus.style.color = 'red';
+     //   alert('Fuel level too low for launch');
 
     } else {
         fuelLevelStatus.innerHTML = 'Fuel level high enough for launch';
@@ -81,6 +95,7 @@ function formSubmission(document, list, pilot, copilot, fuelLevel, cargoLevel) {
         cargoMassStatus.innerHTML = 'Cargo mass too heavy for launch';
         launchStatus.innerHTML = 'Shuttle Not Ready for Launch';
         launchStatus.style.color = 'red';
+      //  alert('Cargo mass too heavy for launch');
 
     } else {
         cargoMassStatus.innerHTML = 'Cargo mass low enough for launch';
