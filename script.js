@@ -7,6 +7,9 @@ window.addEventListener("load", function() {
     let listedPlanets;
     // Set listedPlanetsResponse equal to the value returned by calling myFetch()
     let listedPlanetsResponse = myFetch();
+    let launchStatusCheck = document.getElementById('launchStatusCheck');
+
+    launchStatusCheck.style.visibility = 'hidden';
 
     listedPlanetsResponse.then(function (result) {
         listedPlanets = result;
